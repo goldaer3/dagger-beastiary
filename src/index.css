@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Cormorant Garamond', serif;
+  background-color: #2b1e10;
+  background-image: url('https://www.transparenttextures.com/patterns/old-wall.png');
+  color: #3e2c1b;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-container {
+  background-image: url('https://www.transparenttextures.com/patterns/parchment.png'), 
+                    linear-gradient(145deg, #f3e9d2 0%, #dac8a7 100%);
+  background-blend-mode: overlay;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-image: repeating-linear-gradient(45deg, #8b7355, #5c4a32 10px) 30;
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.3), 0 10px 20px rgba(0,0,0,0.5);
+  margin: 20px;
+  border-radius: 8px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
