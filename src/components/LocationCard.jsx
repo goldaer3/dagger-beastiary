@@ -1,8 +1,8 @@
 // src/components/LocationCard.jsx
-import './Card.css'
+import './Card.css';
 
 const LocationCard = ({ location, onClick }) => {
-  const { name, image, type, danger } = location
+  const { name, type, danger, image } = location;
 
   return (
     <div className="card" onClick={onClick}>
@@ -15,10 +15,12 @@ const LocationCard = ({ location, onClick }) => {
       </div>
       <div className="card-info">
         <h3 className="card-name">{name}</h3>
-        <p className="card-subtitle">{type} · Опасность {danger}/100</p>
+        <p className="card-subtitle">
+          {type} · Опасность {danger}
+        </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default LocationCard
+export default LocationCard;

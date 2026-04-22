@@ -98,6 +98,7 @@ const CharacterModal = ({ character, onClose }) => {
     mastery, experience = [], inventory = [], appearance, backstory, personality = [],
     relationships = [], image, session, kingdom, society, alignment,
     wounds = 0, stress = 0, evasion = 0, armorClass = 0, hope = 6, thresholds,
+    author, // добавлено поле author
   } = character;
 
   const handleItemLink = (link) => openItemFromLink(link);
@@ -138,7 +139,7 @@ const CharacterModal = ({ character, onClose }) => {
                 {level && <span className="badge">Ур. {level}</span>}
               </div>
               <p className="modal-origin">{origin}</p>
-              {(session || kingdom || society || alignment || patron) && (
+              {(session || kingdom || society || alignment || patron || author) && (
                 <div className="modal-meta">
                   {session && <span>📜 <a href="#">{session}</a></span>}
                   {kingdom && <span>👑 <a href="#">{kingdom}</a></span>}
@@ -147,6 +148,7 @@ const CharacterModal = ({ character, onClose }) => {
                   {patron && (
                     <span>🍄 Покровитель: <a href={patron.link}>{patron.name}</a></span>
                   )}
+                  {author && <span>✍️ {author}</span>}
                 </div>
               )}
             </div>
