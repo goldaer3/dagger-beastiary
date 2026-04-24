@@ -6,8 +6,13 @@ const ItemModal = ({ item, onClose }) => {
   const {
     name, type, image, marketValue, creator,
     relatedSociety, property, description, materials,
-    armor
+    armor, damage, damageType, range, grip, characteristic
   } = item
+
+  const typeArray = Array.isArray(type) ? type : [type]
+  const isArmor = typeArray.includes('Броня') || typeArray.some(t => t.includes('Броня'))
+  const isWeapon = typeArray.includes('Оружие') || typeArray.some(t => t.includes('Оружие'))
+  const hasWeaponStats = !!(damage || damageType || range || grip || characteristic)
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -28,27 +33,76 @@ const ItemModal = ({ item, onClose }) => {
           <div className="modal-title-block">
             <h2 className="modal-name">{name}</h2>
             <div className="modal-badges">
-              {Array.isArray(type) ? type.map(t => <span key={t} className="badge">{t}</span>) : <span className="badge">{type}</span>}
+              {typeArray.map(t => <span key={t} className="badge">{t}</span>)}
             </div>
+            {marketValue && (
+              <p className="modal-cost">Стоимость: <strong>{marketValue.gold} золотых</strong></p>
+            )}
             {creator && <p className="modal-creator">Создатель: {creator}</p>}
           </div>
         </div>
 
-        <div className="item-details">
-          {marketValue && (
-            <section className="info-card">
-              <h3>Стоимость</h3>
-              <p><strong>{marketValue.gold} золотых</strong></p>
-            </section>
+        <div className="modal-body item-body">
+          {isArmor && armor && (
+            <div className="item-stats-row">
+              <section className="info-card item-def">
+                <h3>Защита</h3>
+                <div className="combat-bar">
+                    {armor.rank && (
+                      <div className="combat-stat">
+                        <span className="stat-icon">📶</span>
+                        <span className="stat-value">{armor.rank}</span>
+                        <span className="stat-label">Ранг</span>
+                      </div>
+                    )}
+                    {armor.thresholds && (
+                      <div className="combat-stat">
+                        <span className="stat-icon">⚡</span>
+                        <span className="stat-value">{armor.thresholds.minor}/{armor.thresholds.major}</span>
+                        <span className="stat-label">Пороги</span>
+                      </div>
+                    )}
+                    {armor.baseClass && (
+                      <div className="combat-stat">
+                        <span className="stat-icon">🛡️</span>
+                        <span className="stat-value">{armor.baseClass}</span>
+                        <span className="stat-label">Класс</span>
+                      </div>
+                    )}
+                  </div>
+                </section>
+              </div>
           )}
 
-          {armor && (
-            <section className="info-card">
-              <h3>Броня</h3>
-              <div className="armor-stats">
-                {armor.rank && <p><strong>Ранг:</strong> {armor.rank}</p>}
-                {armor.thresholds && <p><strong>Пороги урона:</strong> {armor.thresholds.minor} / {armor.thresholds.major}</p>}
-                {armor.baseClass && <p><strong>Показатель брони:</strong> {armor.baseClass}</p>}
+          {isWeapon && hasWeaponStats && (
+            <section className="info-card item-stats">
+              <h3>Боевые характеристики</h3>
+              <div className="combat-bar">
+                <div className="combat-stat">
+                  <span className="stat-icon">🎯</span>
+                  <span className="stat-value">{damage}</span>
+                  <span className="stat-label">Урон</span>
+                </div>
+                <div className="combat-stat">
+                  <span className="stat-icon">🗡️</span>
+                  <span className="stat-value">{damageType}</span>
+                  <span className="stat-label">Тип</span>
+                </div>
+                <div className="combat-stat">
+                  <span className="stat-icon">📏</span>
+                  <span className="stat-value">{range}</span>
+                  <span className="stat-label">Дистанция</span>
+                </div>
+                <div className="combat-stat">
+                  <span className="stat-icon">✋</span>
+                  <span className="stat-value">{grip}</span>
+                  <span className="stat-label">Хват</span>
+                </div>
+                <div className="combat-stat">
+                  <span className="stat-icon">📊</span>
+                  <span className="stat-value">{characteristic}</span>
+                  <span className="stat-label">Характеристика</span>
+                </div>
               </div>
             </section>
           )}

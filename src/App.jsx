@@ -3,38 +3,31 @@ import { ModalProvider } from './context/ModalContext'
 import ModalRenderer from './components/ModalRenderer'
 import Layout from './components/Layout'
 import HomePage from './pages/HomePage'
-import CharactersPage from './pages/CharactersPage'
-import EnemiesPage from './pages/EnemiesPage'
-import ItemsPage from './pages/ItemsPage'
-import SpellsPage from './pages/SpellsPage'
+import GenericCategoryPage from './pages/GenericCategoryPage'
 import CountriesPage from './pages/CountriesPage'
 import SocietiesPage from './pages/SocietiesPage'
-import LocationsPage from './pages/LocationsPage'
 import SettingsPage from './pages/SettingsPage'
 import SpeciesPage from './pages/SpeciesPage'
 import EventsPage from './pages/EventsPage'
-
-
-
 
 function App() {
   return (
     <ModalProvider>
       <Routes>
-          <Route path="/" element={<Layout />}>
-                  <Route index element={<HomePage />} />
-          <Route path="characters" element={<CharactersPage />} />
-           <Route path="enemies" element={<EnemiesPage />} />
-          <Route path="items" element={<ItemsPage />} />
-          <Route path="spells" element={<SpellsPage />} />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="characters" element={<GenericCategoryPage pageKey="characters" />} />
+          <Route path="enemies" element={<GenericCategoryPage pageKey="enemies" />} />
+          <Route path="items" element={<GenericCategoryPage pageKey="items" />} />
+          <Route path="spells" element={<GenericCategoryPage pageKey="spells" />} />
           <Route path="countries" element={<CountriesPage />} />
           <Route path="societies" element={<SocietiesPage />} />
-          <Route path="locations" element={<LocationsPage />} />
+          <Route path="locations" element={<GenericCategoryPage pageKey="locations" />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="species" element={<SpeciesPage />} />
           <Route path="events" element={<EventsPage />} />
-          </Route>
-        </Routes>
+        </Route>
+      </Routes>
       <ModalRenderer />
     </ModalProvider>
   )

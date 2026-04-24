@@ -17,16 +17,12 @@
   color: #8b5a2b;
 }
 
-.characters-grid {
+.entity-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1.5rem;
   padding: 0.5rem;
 }
-
-/* Добавить в CategoryPage.css */
-
-/* ... существующие стили ... */
 
 .filters-panel {
   background: rgba(210, 180, 140, 0.2);
@@ -87,11 +83,3 @@
   color: #4a3520;
   padding: 2rem;
 }
-
-.items-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1.5rem;
-  padding: 0.5rem;
-}
-

@@ -1,20 +1,18 @@
+import { dataRegistry } from '../data/registry'
+import ModalLink from './ModalLink'
 import './EnemyModal.css'
 
-const EnemyModal = ({ enemy, onClose, allEnemies = [], onOpenEnemy }) => {
+const EnemyModal = ({ enemy, onClose }) => {
+  const allEnemies = dataRegistry.enemy.data
+
   if (!enemy) return null
 
   const {
     name, type, species, location, danger, status,
     combat, loot, appearance, backstory, abilities, image,
     master, minions,
-    behavior, intellect, society   // новые поля
+    behavior, intellect, society
   } = enemy
-
-  const handleOpenEnemy = (id) => (e) => {
-    e.preventDefault()
-    const target = allEnemies.find(e => e.id === id)
-    if (target && onOpenEnemy) onOpenEnemy(target)
-  }
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -35,32 +33,30 @@ const EnemyModal = ({ enemy, onClose, allEnemies = [], onOpenEnemy }) => {
             <h2 className="modal-name">{name}</h2>
             <div className="modal-badges">
               {status && <span className="badge status">{status}</span>}
-              <span className="badge"><a href="#">{type}</a></span>
-              <span className="badge"><a href="#">{species}</a></span>
+              <span className="badge">{type}</span>
+              <span className="badge">{species}</span>
             </div>
-            <p className="modal-location">
-              Локация: {Array.isArray(location) 
+<p className="modal-location">
+              Локация: {Array.isArray(location)
                 ? location.map((loc, i) => (
-                    <span key={loc}>
-                      <a href="#">{loc}</a>{i < location.length - 1 ? ', ' : ''}
-                    </span>
-                  )) 
-                : <a href="#">{location}</a>}
+                  <span key={loc}>
+                    <ModalLink link={`location:${loc}`}>{loc}</ModalLink>
+                    {i < location.length - 1 ? ', ' : ''}
+                  </span>
+                ))
+                : <ModalLink link={`location:${location}`}>{location}</ModalLink>}
             </p>
             {master && (
               <p className="modal-master">
-                Хозяин: <a href="#" onClick={handleOpenEnemy(master)}>
-                  {allEnemies.find(e => e.id === master)?.name || master}
-                </a>
+                Хозяин: <ModalLink link={`enemy:${master}`}>{allEnemies.find(e => e.id === master)?.name || master}</ModalLink>
               </p>
             )}
             {minions && minions.length > 0 && (
               <p className="modal-minions">
                 Приспешники: {minions.map((id, i) => (
                   <span key={id}>
-                    <a href="#" onClick={handleOpenEnemy(id)}>
-                      {allEnemies.find(e => e.id === id)?.name || id}
-                    </a>{i < minions.length - 1 ? ', ' : ''}
+                    <ModalLink link={`enemy:${id}`}>{allEnemies.find(e => e.id === id)?.name || id}</ModalLink>
+                    {i < minions.length - 1 ? ', ' : ''}
                   </span>
                 ))}
               </p>
@@ -91,7 +87,6 @@ const EnemyModal = ({ enemy, onClose, allEnemies = [], onOpenEnemy }) => {
           </div>
         </div>
 
-        {/* НОВАЯ СЕКЦИЯ: Поведение, интеллект, общество */}
         <div className="behavior-panel info-card">
           <h3>Характер и поведение</h3>
           <div className="behavior-grid">
@@ -124,7 +119,7 @@ const EnemyModal = ({ enemy, onClose, allEnemies = [], onOpenEnemy }) => {
               <ul className="loot-list">
                 {loot.map((item, i) => (
                   <li key={i}>
-                    {item.link ? <a href={item.link}>{item.name}</a> : item.name}
+                    <ModalLink link={item.link}>{item.name}</ModalLink>
                   </li>
                 ))}
               </ul>
@@ -145,7 +140,7 @@ const EnemyModal = ({ enemy, onClose, allEnemies = [], onOpenEnemy }) => {
                 {abilities.map((abil, i) => (
                   <div key={i} className="ability-item">
                     <strong>
-                      {abil.link ? <a href="#" onClick={handleOpenEnemy(abil.link.split(':')[1])}>{abil.name}</a> : abil.name}
+                      <ModalLink link={abil.link}>{abil.name}</ModalLink>
                     </strong>
                     {abil.description && <p>{abil.description}</p>}
                   </div>
